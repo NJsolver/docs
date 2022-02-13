@@ -1,0 +1,792 @@
+##
+
+## PROJECT PROGRAM LIKE EXCEL
+## matlab_project
+## implementation in octave
+## implement function : sum , avg , max , min
+##                      r   , l   , u   , d
+##                      close , goto
+##                      
+
+
+clc
+clear
+close all
+
+
+
+function show_current_task(table , carry_row , carry_col) ## function for show matrix 
+  
+  fprintf("\n\n------------------------------------------------------------------------------\n\n");
+    
+   [min_row , max_row , min_col , max_col] = find_current_task_in_table(carry_row , carry_col);
+   head_name = detect_head_name(carry_col);
+   detect_mat = min_row:max_row;
+   detect_mat = reshape(detect_mat , [10 , 1]);
+   detect_table = table(min_row:max_row,min_col:max_col);
+   show_table_mat = [detect_mat , detect_table];
+   head_print(head_name);
+   matrix_print(show_table_mat);
+   # cerrent_cell_print(carry_row , carry_col);
+   
+end
+
+function [min_row , max_row , min_col , max_col] = find_current_task_in_table(findRow , findCol)## function for find current 10 * 10 part of matrix 100 * 100
+   ## first find current row in table (38 : 77)
+   
+   if findRow <= 10
+     min_row = 1;
+     max_row = 10;
+   elseif findRow <= 20
+     min_row = 11;
+     max_row = 20;
+   elseif findRow <= 30
+     min_row = 21;
+     max_row = 30;
+   elseif findRow <= 40
+     min_row = 31;
+     max_row = 40;
+   elseif findRow <= 50 
+     min_row = 41;
+     max_row = 50;
+   elseif findRow <= 60
+     min_row = 51;
+     max_row = 60;
+   elseif findRow <= 70
+     min_row = 61;
+     max_row = 70;
+   elseif findRow <= 80 
+     min_row = 71;
+     max_row = 80;
+   elseif findRow <= 90 
+     min_row = 81;
+     max_row = 90;
+   elseif findRow <= 100
+     min_row = 91;
+     max_row = 100;
+   end
+   
+   ## second find current column in table (80 : 119)
+   
+   if findCol <= 10
+     min_col = 1;
+     max_col = 10;
+   elseif findCol <= 20
+     min_col = 11;
+     max_col = 20;
+   elseif findCol <= 30 
+     min_col = 21;
+     max_col = 30;
+   elseif findCol <= 40 
+     min_col = 31;
+     max_col = 40;
+   elseif findCol <= 50 
+     min_col = 41;
+     max_col = 50;
+   elseif findCol <= 60 
+     min_col = 51;
+     max_col = 60;
+   elseif findCol <= 70 
+     min_col = 61;
+     max_col = 70;
+   elseif findCol <= 80 
+     min_col = 71;
+     max_col = 80;
+   elseif findCol <= 90 
+     min_col = 81;
+     max_col = 90;
+   elseif findCol <= 100
+     min_col = 91;
+     max_col = 100;
+   end
+
+end
+
+function head_name = detect_head_name(carry_col)## detect head name of 10 * 10 matrix
+  
+  one_head = char("A " , "B " , "C " , "D " , "E ", "F " , "G " , "H " , "I " , "J ");
+  two_head =char("K " , "L " , "M " , "N " , "O ", "P " , "Q " , "R " , "S " , "T ");
+  three_head =char("U " , "V " , "W " , "X " , "Y ", "Z " , "AA" , "AB" , "AC" , "AD");
+  four_head =char("AE" , "AF" , "AG" , "AH" , "AI" ,"AJ" , "AK" , "AL" , "AM" , "AN");
+  five_head =char("AO" , "AP" , "AQ" , "AR", "AS" , "AT" , "AU" , "AV" , "AW" ,"AX");
+  six_head =char("AY" , "AZ" , "BA" , "BB" , "BC" , "BD" ,"BE", "BF" , "BG" , "BH");
+  seven_head =char("BI" , "BJ" , "BK" , "BL" , "BM" , "BN" , "BO", "BP" , "BQ" , "BR");
+  eight_head =char( "BS" , "BT" , "BU" , "BV" , "BW" , "BX" , "BY", "BZ" , "CA" , "CB");
+  nine_head =char("CC" , "CD" , "CE" , "CF" , "CG" , "CH" , "CI", "CJ" , "CK" , "CL");
+  ten_head =char("CM" , "CN" , "CO" , "CP" , "CQ" , "CR", "CS" , "CT" , "CU" , "CV");
+  
+  if carry_col <= 10
+    head_name = one_head;
+    
+  elseif carry_col <= 20
+    head_name = two_head;
+       
+  elseif carry_col <= 30
+    head_name = three_head;
+    
+  elseif carry_col <= 40
+    head_name = four_head;
+    
+  elseif carry_col <= 50
+    head_name = five_head;
+    
+  elseif carry_col <= 60
+    head_name = six_head;
+    
+  elseif carry_col <= 70
+    head_name = seven_head;
+    
+  elseif carry_col <= 80
+    head_name = eight_head;
+    
+  elseif carry_col <= 90
+    head_name = nine_head;
+    
+  elseif carry_col <= 100
+    head_name = ten_head;
+      
+  end
+end
+
+function head_print(head_name) ## print head 10 col head_name = ABCDEFJHIJ
+  efd = '';
+  fprintf("\n");
+  fprintf("%15c" ,efd); 
+  fprintf("%c" , head_name(1,:));
+  fprintf("%6c" ,efd); 
+  fprintf("%c" , head_name(2,:));
+  fprintf("%6c" ,efd); 
+  fprintf("%c" , head_name(3,:));
+  fprintf("%6c" ,efd);   
+  fprintf("%c" , head_name(4,:));
+  fprintf("%6c" ,efd); 
+  fprintf("%c" , head_name(5,:));
+  fprintf("%6c" ,efd);  
+  fprintf("%c" , head_name(6,:));
+  fprintf("%6c" ,efd); 
+  fprintf("%c" , head_name(7,:));
+  fprintf("%6c" ,efd);  
+  fprintf("%c" , head_name(8,:));
+  fprintf("%6c" ,efd); 
+  fprintf("%c" , head_name(9,:));
+  fprintf("%6c" ,efd); 
+  fprintf("%c" , head_name(10,:));
+  ##fprintf("%c" ,efd); 
+  fprintf("\n");
+    
+end
+
+function matrix_print(matrix) ## print matrix 10 * 10
+  new_mat = matrix;
+  
+  
+  fprintf("\n");
+  
+  fprintf("%8d" , new_mat(1,:));## for equal distance between col use %8
+  fprintf("\n");
+  
+  fprintf("%8d" , new_mat(2,:));
+  fprintf("\n");
+  
+  fprintf("%8d" , new_mat(3,:));
+  fprintf("\n");
+  
+  fprintf("%8d" , new_mat(4,:));
+  fprintf("\n");
+   
+  fprintf("%8d" , new_mat(5,:));
+  fprintf("\n");
+   
+  fprintf("%8d" , new_mat(6,:));
+  fprintf("\n");
+  
+  fprintf("%8d" , new_mat(7,:));
+  fprintf("\n");
+    
+  fprintf("%8d" , new_mat(8,:));
+  fprintf("\n");
+   
+  fprintf("%8d" , new_mat(9,:));
+  fprintf("\n");
+  
+  fprintf("%8d" , new_mat(10,:));
+  fprintf("\n");
+  
+end
+
+function cerrent_cell_print(row , col) ## print current cell after pring table 'A1'
+  
+  one_head = char("A" , "B" , "C" , "D" , "E", "F" , "G" , "H" , "I" , "J");
+  two_head =char("K" , "L" , "M" , "N" , "O", "P" , "Q" , "R" , "S" , "T");
+  three_head =char("U" , "V" , "W" , "X" , "Y", "Z " , "AA" , "AB" , "AC" , "AD");
+  four_head =char("AE" , "AF" , "AG" , "AH" , "AI" ,"AJ" , "AK" , "AL" , "AM" , "AN");
+  five_head =char("AO" , "AP" , "AQ" , "AR", "AS" , "AT" , "AU" , "AV" , "AW" ,"AX");
+  six_head =char("AY" , "AZ" , "BA" , "BB" , "BC" , "BD" ,"BE", "BF" , "BG" , "BH");
+  seven_head =char("BI" , "BJ" , "BK" , "BL" , "BM" , "BN" , "BO", "BP" , "BQ" , "BR");
+  eight_head =char( "BS" , "BT" , "BU" , "BV" , "BW" , "BX" , "BY", "BZ" , "CA" , "CB");
+  nine_head =char("CC" , "CD" , "CE" , "CF" , "CG" , "CH" , "CI", "CJ" , "CK" , "CL");
+  ten_head =char("CM" , "CN" , "CO" , "CP" , "CQ" , "CR", "CS" , "CT" , "CU" , "CV");
+  chr = "A";
+  carry = 0;
+  
+  if col <= 10
+    carry = col;
+    chr = one_head(carry,:);    
+  elseif col <= 20
+    carry = col - 10;
+    chr = two_head(carry,:);   
+  elseif col <= 30
+    carry = col - 20;
+    chr = three_head(carry,:);  
+  elseif col <= 40
+    carry = col - 30;
+    chr = four_head(carry,:);    
+  elseif col <= 50
+    carry = col - 40;
+    chr = five_head(carry,:);   
+  elseif col <= 60
+    carry = col - 50;
+    chr = six_head(carry,:);   
+  elseif col <= 70
+    carry = col - 60;
+    chr = seven_head(carry,:);    
+  elseif col <= 80
+    carry = col - 70;
+    chr = eight_head(carry,:);  
+  elseif col <= 90
+    carry = col - 80;
+    chr = nine_head(carry,:) ;   
+  elseif col <= 100
+    carry = col - 90;
+    chr = ten_head(carry,:);   
+  end
+  
+  fprintf("%s%d " , chr,row);
+  
+end
+
+function decision = make_dicision(user_input) ## find what user want to action 
+  
+   detect = lower(user_input);
+   
+   detect = [detect , 'xxx'];
+   
+   if detect(1:4) == "goto"
+     decision = "goto";
+   elseif detect(1:4) == "clos"
+     decision = "clos";
+   elseif detect(1:4) == "rxxx" 
+     decision = "rxxx";
+   elseif detect(1:4) == "lxxx"
+     decision = "lxxx";
+   elseif detect(1:4) == "uxxx"
+     decision = "uxxx";
+   elseif detect(1:4) == "dxxx"
+     decision = "dxxx";
+   elseif detect(1:4) == "=sum"
+     decision = "=sum";
+   elseif detect(1:4) == "=avg"
+     decision = "=avg";
+   elseif detect(1:4) == "=max"
+     decision = "=max";
+   elseif detect(1:4) == "=min"
+     decision = "=min";
+   else
+     decision = "inse";
+   endif
+end
+
+function [row , col] = move_goto(user_input)## implementation goto function (292-336)
+  
+  user_input(1:4) = [];
+  %%split_input = strsplit(user_input);# split goto AA22 example to 1 * 2 cell 
+  
+  %%address_cell = split_input(2); ## split AA22 into address_cell
+  
+  %%chr_addrees = cell2mat(address_cell);## convert cell to char
+  row_fake = str2double(regexp(user_input , '[\d]' , 'match')); ## find row index
+  # num1 = numel(row_fake);
+  row_fake_2 = [0 ,0, row_fake];
+  
+  row = ((row_fake_2(end)) + (row_fake_2(end -1) * 10) + (row_fake_2(end-2) * 100));
+  
+  address_cell = cellstr(user_input);
+  col_name_cell = regexprep(address_cell , '[\d]' , ''); ## delete num from cell = AA
+  col_name_char = cell2mat(col_name_cell); ## convert cell to char AA
+  col_name_char = upper(col_name_char);
+  
+  
+  one_head = char("A" , "B" , "C" , "D" , "E", "F" , "G" , "H" , "I" , "J");
+  two_head =char("K" , "L" , "M" , "N" , "O", "P" , "Q" , "R" , "S" , "T");
+  three_head =char("U" , "V" , "W" , "X" , "Y", "Z ");
+  col_detect = ['I' , col_name_char];
+  alpha = char(one_head , two_head , three_head);
+  i = 0;
+  while i < 26
+    i = i + 1;
+    if col_detect(end) == alpha(i)
+      col_fake = i;
+      if col_detect(end -1) == 'I'
+        col = col_fake + 0;
+        break;
+      elseif col_detect(end-1) == "A"
+        col = col_fake + 26;
+        break;
+      elseif col_detect(end-1) == "B"
+        col = col_fake + 52;
+        break;
+      elseif col_detect(end - 1) == "C"
+        col = col_fake + 78;
+        break;
+      endif
+    endif
+  endwhile
+  
+end
+
+function [current_row , current_col] = move_right(row , col) #move right function with 'r'
+  current_row = row;
+  current_col = col + 1;
+  
+  if current_col > 100
+    current_col = col;
+  endif
+  
+end
+
+function [current_row , current_col] = move_left(row , col)# move left function with 'l'
+  current_row = row;
+  current_col = col -1;
+  
+  if current_col < 1
+    current_col = col;
+  endif
+  
+end
+function [current_row , current_col] = move_up(row , col) #move up function with 'u'
+  current_row = row - 1;
+  current_col = col;
+  
+  if current_row < 1
+    current_row = row;
+  endif
+  
+end
+
+function [current_row , current_col] = move_down(row , col)# move down func with 'd'
+  current_row = row + 1;
+  current_col = col;
+  
+  if current_row > 100
+    current_row = row;
+  endif
+  
+end
+
+function [new_value , row , col] = insert_num_to_table(current_cell_1 , current_cell_2 , user_input)
+  user_input(1) = [];
+  new_value = eval(user_input);## for calcute user input
+  [row , col] = move_down(current_cell_1 , current_cell_2);
+   
+  #row = current_pos(1);
+  #col = current_pos(2); 
+end
+
+function [row_first , row_end , col] = return_multi_index(cell_name , cell_name_2)## for return seris insexes for calcute sum of other func or delete
+  [row_1 , col_1] = return_index_cell(cell_name);
+  [row_2 , col_2] = return_index_cell(cell_name_2);
+  
+  if col_1 < col_2
+    row_first = (col_1 -1) * 100 + row_1;
+    row_end = (col_2 -1) * 100 + row_2;
+  elseif col_2 < col_1
+    row_first = (col_2 -1) * 100 + row_2;
+    row_end = (col_1 -1) * 100 + row_1;
+  elseif col_1 = col_2
+    if row_1 <= row_2
+      row_first =  (col_1 -1) * 100 + row_1;
+      row_end = (col_1 -1) * 100 + row_2;
+    elseif row_2 < row_1
+      row_end = (col_1 -1) * 100 + row_1;
+      row_first = (col_1 -1) * 100 + row_2;      
+    end
+  endif
+  
+end
+
+function [row , col] = return_index_cell(cell_name) ## conver A1 to [1 , 1]
+  
+  row_fake = str2double(regexp(cell_name , '[\d]' , 'match')); 
+  row_fake_2 = [0 ,0, row_fake];
+  row = ((row_fake_2(end)) + (row_fake_2(end -1) * 10) + (row_fake_2(end-2) * 100));
+  
+  address_cell = cellstr(cell_name);
+  col_name_cell = regexprep(address_cell , '[\d]' , ''); ## delete num from cell = AA
+  col_name_char = cell2mat(col_name_cell); ## convert cell to char AA
+  
+  one_head = char("A" , "B" , "C" , "D" , "E", "F" , "G" , "H" , "I" , "J");
+  two_head =char("K" , "L" , "M" , "N" , "O", "P" , "Q" , "R" , "S" , "T");
+  three_head =char("U" , "V" , "W" , "X" , "Y", "Z ");
+  col_detect = ['I' , col_name_char];
+  alpha = char(one_head , two_head , three_head);
+  i = 0;
+  while i < 26
+    i = i + 1;
+    if col_detect(end) == alpha(i)
+      col_fake = i;
+      if col_detect(end -1) == 'I'
+        col = col_fake + 0;
+        break;
+      elseif col_detect(end-1) == "A"
+        col = col_fake + 26;
+        break;
+      elseif col_detect(end-1) == "B"
+        col = col_fake + 52;
+        break;
+      elseif col_detect(end - 1) == "C"
+        col = col_fake + 78;
+        break;
+      endif
+    endif
+  endwhile
+  
+end
+
+function calcute_sum = sum_function(table , user_input)## for calcute sum in table
+  user_input_det = user_input(find(~isspace(user_input)));
+  user_input_det(1:5) = [];
+  user_input_det(end) = [];
+  user_input_det = upper(user_input_det);
+  numel(user_input_det); ## delete 'sum' string from user string for decomposition user input
+  cell_name = '';
+  cell_name_2 = '';
+  i = 1;
+  sum_table = [];
+  while i <= numel(user_input_det) 
+    #i = i + 1;
+    #j = i;
+    if user_input_det(i) ~= ','
+      if user_input_det(i) == ':'
+        i = i + 1;
+        while user_input_det(i) ~= ','
+          cell_name_2 = [cell_name_2 , user_input_det(i)];
+          if i == numel(user_input_det)
+            break;
+          endif
+          i = i + 1;
+        endwhile
+        ## class(cell_name) ## mavagat ***
+        [row_first ,row_end] = return_multi_index(cell_name , cell_name_2);
+        sum_col = table(row_first:row_end);
+        sum_table = [sum_table , sum_col];
+        
+       if i == numel(user_input_det)
+        break;
+       
+       endif
+      
+      elseif user_input_det(i) ~= ':'
+        cell_name = [cell_name , user_input_det(i)];
+        i = i + 1;       
+      
+      endif
+      
+      if (i == numel(user_input_det) + 1)
+        [row , col] = return_index_cell(cell_name);
+        one_index = table(row , col);
+        sum_table = [sum_table , one_index];
+        cell_name = '';
+      endif
+      
+    elseif user_input_det(i) == ','
+      i = i + 1;
+      ## class(cell_name) ## mavagat ****
+      [row , col] = return_index_cell(cell_name);
+      one_index = table(row , col);
+      sum_table = [sum_table , one_index];
+      cell_name = '';
+    endif
+    
+  endwhile
+  
+  calcute_sum = sum(sum_table);
+end
+
+function calcute_mean = mean_function(table , user_input)
+  user_input_det = user_input(find(~isspace(user_input)));
+  user_input_det(1:5) = [];
+  user_input_det(end) = [];
+  user_input_det = upper(user_input_det);
+  numel(user_input_det); ## delete 'sum' string from user string for decomposition user input
+  cell_name = '';
+  cell_name_2 = '';
+  i = 1;
+  sum_table = [];
+  while i <= numel(user_input_det) 
+    #i = i + 1;
+    #j = i;
+    if user_input_det(i) ~= ','
+      if user_input_det(i) == ':'
+        i = i + 1;
+        while user_input_det(i) ~= ','
+          cell_name_2 = [cell_name_2 , user_input_det(i)];
+          if i == numel(user_input_det)
+            break;
+          endif
+          i = i + 1;
+        endwhile
+        ## class(cell_name) ## mavagat ***
+        [row_first ,row_end] = return_multi_index(cell_name , cell_name_2);
+        sum_col = table(row_first:row_end);
+        sum_table = [sum_table , sum_col];
+        
+       if i == numel(user_input_det)
+        break;
+       
+       endif
+      
+      elseif user_input_det(i) ~= ':'
+        cell_name = [cell_name , user_input_det(i)];
+        i = i + 1;       
+      
+      endif
+      
+      if (i == numel(user_input_det) + 1)
+        [row , col] = return_index_cell(cell_name);
+        one_index = table(row , col);
+        sum_table = [sum_table , one_index];
+        cell_name = '';
+      endif
+      
+    elseif user_input_det(i) == ','
+      i = i + 1;
+      ## class(cell_name) ## mavagat ****
+      [row , col] = return_index_cell(cell_name);
+      one_index = table(row , col);
+      sum_table = [sum_table , one_index];
+      cell_name = '';
+    endif
+    
+  endwhile
+  
+  calcute_mean = mean(sum_table);
+end
+
+
+function calcute_max = max_function(table , user_input) # 542-593
+  user_input_det = user_input(find(~isspace(user_input)));
+  user_input_det(1:5) = [];
+  user_input_det(end) = [];
+  user_input_det = upper(user_input_det);
+  numel(user_input_det); ## delete 'sum' string from user string for decomposition user input
+  cell_name = '';
+  cell_name_2 = '';
+  i = 1;
+  sum_table = [];
+  while i <= numel(user_input_det) 
+    #i = i + 1;
+    #j = i;
+    if user_input_det(i) ~= ','
+      if user_input_det(i) == ':'
+        i = i + 1;
+        while user_input_det(i) ~= ','
+          cell_name_2 = [cell_name_2 , user_input_det(i)];
+          if i == numel(user_input_det)
+            break;
+          endif
+          i = i + 1;
+        endwhile
+        ## class(cell_name) ## mavagat ***
+        [row_first ,row_end] = return_multi_index(cell_name , cell_name_2);
+        sum_col = table(row_first:row_end);
+        sum_table = [sum_table , sum_col];
+        
+       if i == numel(user_input_det)
+        break;
+       
+       endif
+      
+      elseif user_input_det(i) ~= ':'
+        cell_name = [cell_name , user_input_det(i)];
+        i = i + 1;       
+      
+      endif
+      
+      if (i == numel(user_input_det) + 1)
+        [row , col] = return_index_cell(cell_name);
+        one_index = table(row , col);
+        sum_table = [sum_table , one_index];
+        cell_name = '';
+      endif
+      
+    elseif user_input_det(i) == ','
+      i = i + 1;
+      ## class(cell_name) ## mavagat ****
+      [row , col] = return_index_cell(cell_name);
+      one_index = table(row , col);
+      sum_table = [sum_table , one_index];
+      cell_name = '';
+    endif
+    
+  endwhile
+  
+  calcute_max = max(sum_table);
+end
+
+function calcute_min = min_function(table , user_input) # 595-646
+  user_input_det = user_input(find(~isspace(user_input)));
+  user_input_det(1:5) = [];
+  user_input_det(end) = [];
+  user_input_det = upper(user_input_det);
+  numel(user_input_det); ## delete 'sum' string from user string for decomposition user input
+  cell_name = '';
+  cell_name_2 = '';
+  i = 1;
+  sum_table = [];
+  while i <= numel(user_input_det) 
+    #i = i + 1;
+    #j = i;
+    if user_input_det(i) ~= ','
+      if user_input_det(i) == ':'
+        i = i + 1;
+        while user_input_det(i) ~= ','
+          cell_name_2 = [cell_name_2 , user_input_det(i)];
+          if i == numel(user_input_det)
+            break;
+          endif
+          i = i + 1;
+        endwhile
+        ## class(cell_name) ## mavagat ***
+        [row_first ,row_end] = return_multi_index(cell_name , cell_name_2);
+        sum_col = table(row_first:row_end);
+        sum_table = [sum_table , sum_col];
+        
+       if i == numel(user_input_det)
+        break;
+       
+       endif
+      
+      elseif user_input_det(i) ~= ':'
+        cell_name = [cell_name , user_input_det(i)];
+        i = i + 1;       
+      
+      endif
+      
+      if (i == numel(user_input_det) + 1)
+        [row , col] = return_index_cell(cell_name);
+        one_index = table(row , col);
+        sum_table = [sum_table , one_index];
+        cell_name = '';
+      endif
+      
+    elseif user_input_det(i) == ','
+      i = i + 1;
+      ## class(cell_name) ## mavagat ****
+      [row , col] = return_index_cell(cell_name);
+      one_index = table(row , col);
+      sum_table = [sum_table , one_index];
+      cell_name = '';
+    endif
+    
+  endwhile
+  
+  calcute_min = min(sum_table);
+end
+
+##--------------------------------------------------##
+## build main structure of program
+
+
+
+## fprintf("\tuse (goto) for go to another cell");
+
+table = zeros(100);
+current_cell = [1 , 1];
+decision = 'ddd';
+
+##table(1 , 1) = 6547;
+
+
+while true 
+  
+  clc
+  
+  #user_input = cell(1 , 20);
+    
+  fprintf("\n\n\n\tEnter input in the current cell of table\n");
+  fprintf("\tfor change current cell use goto 'cellAddress' \n");
+  fprintf("\tfunctions you can use :\t(sum) (avg) (min) (max) \n");
+  fprintf("\tfor move in table use :\t(r)   (l)   (u)   (d)\n");
+  fprintf("\tif you want exit use (close)\n");
+  
+  
+  show_current_task(table , current_cell(1) , current_cell(2));
+  
+  user_input = input(cerrent_cell_print(current_cell(1) , current_cell(2)) ,">> ","s");
+  user_input = user_input(find(~isspace(user_input)));
+  user_input = lower(user_input);
+  decision = make_dicision(user_input);
+  
+  
+  
+  if decision == "goto"
+    [row , col] = move_goto(user_input);
+    current_cell = [row , col];
+  elseif decision == "rxxx"
+    [row , col] = move_right(current_cell(1) , current_cell(2));
+    current_cell = [row , col];
+  elseif decision == "lxxx"
+    [row , col] = move_left(current_cell(1) , current_cell(2));
+    current_cell = [row , col];
+  elseif decision == "uxxx"
+    [row , col] = move_up(current_cell(1) , current_cell(2));
+    current_cell = [row , col];
+  elseif decision == "dxxx"
+    [row , col] = move_down(current_cell(1) , current_cell(2));
+    current_cell = [row , col];
+  elseif decision == "inse"
+    [insert_element , row , col] = insert_num_to_table(current_cell(1) , current_cell(2) , user_input);
+    table(current_cell(1) , current_cell(2)) = insert_element;
+    current_cell(1) = row;
+    current_cell(2) = col;
+  elseif decision == "=sum"
+    calcute_sum = sum_function(table , user_input);## do something for sum in table element
+    fprintf('%d' , calcute_sum);
+    table(current_cell(1) , current_cell(2)) = calcute_sum;
+    [row , col] = move_down(current_cell(1) , current_cell(2));
+    current_cell(1) = row;
+    current_cell(2) = col;
+    pause;
+  elseif decision == "=avg"
+    calcute_mean = mean_function(table , user_input);## do something for mean in table element
+    fprintf('%d' , calcute_mean);
+    table(current_cell(1) , current_cell(2)) = calcute_mean;
+    [row , col] = move_down(current_cell(1) , current_cell(2));
+    current_cell(1) = row;
+    current_cell(2) = col;
+    pause;
+  elseif decision == "=max"
+    calcute_max = max_function(table , user_input);## do something for max in table element
+    fprintf('%d' , calcute_max);
+    table(current_cell(1) , current_cell(2)) = calcute_max;
+    [row , col] = move_down(current_cell(1) , current_cell(2));
+    current_cell(1) = row;
+    current_cell(2) = col;
+    pause;
+  elseif decision == "=min"
+    calcute_min = min_function(table , user_input);## do something for min in table element
+    fprintf('%d' , calcute_min);
+    table(current_cell(1) , current_cell(2)) = calcute_min;
+    [row , col] = move_down(current_cell(1) , current_cell(2));
+    current_cell(1) = row;
+    current_cell(2) = col;
+    pause;
+  elseif decision == "clos" ## close program
+    break;
+%    exit();
+    
+  end
+  
+  clear user_input;
+
+end
